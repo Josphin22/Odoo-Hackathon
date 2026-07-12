@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #1E40AF; /* Deep reliable blue */
+  --color-primary-light: #3B82F6;
+  --color-primary-dark: #1E3A8A;
+  --color-secondary: #F59E0B; /* Vibrant yellow-orange highlight */
+  --color-secondary-light: #FBBF24;
+  --color-secondary-dark: #D97706;
+  --color-accent: #F97316; /* Vibrant orange highlight */
+  --color-accent-light: #FB923C;
+  --color-accent-dark: #EA580C;
+  
+  --color-background-light: #F8FAFC; /* Clean Slate Neutral */
+  --color-background-dark: #0F172A; /* Slate Neutral Dark */
+  --color-surface-light: #FFFFFF;
+  --color-surface-dark: #1E293B; /* Dark Slate Surface */
+  --color-sidebar-light: #F1F5F9; /* Clean Neutral Gray */
+  --color-sidebar-dark: #0B0F19; /* Charcoal Neutral Dark */
+  --color-muted: #64748B;
+
+  --font-sans: "Outfit", "Inter", sans-serif;
+  --shadow-premium: 0 4px 30px rgba(0, 0, 0, 0.05);
+  --shadow-premium-hover: 0 10px 40px rgba(0, 0, 0, 0.1);
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+}
+
+/* Custom Base Styles */
+@layer base {
+  body {
+    @apply font-sans transition-colors duration-200 antialiased;
+  }
+}
+
+/* Premium Layout & Glassmorphism Utilities */
+@layer utilities {
+  .glassmorphism {
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+  }
+
+  .glassmorphism-dark {
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .glass-card-hover {
+    @apply transition-all duration-300 hover:shadow-premium-hover hover:-translate-y-0.5;
+  }
+
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Recharts Tooltip Styling Override */
+.recharts-default-tooltip {
+  @apply rounded-xl border border-slate-200/50 dark:border-slate-800/50 bg-white/95 dark:bg-slate-900/95 shadow-premium backdrop-blur-md p-3! text-xs font-sans;
+}
+
+/* Base custom anim keyframes */
+@keyframes subtle-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.animate-subtle-pulse {
+  animation: subtle-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
