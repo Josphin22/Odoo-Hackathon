@@ -3,12 +3,14 @@ package com.transitops.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
@@ -25,6 +27,15 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+                        
+                        // User, Role & Audit Administration
+                        .requestMatchers("/api/users/**").hasRole("ADMIN")
+                        .requestMatchers("/api/roles/**").hasRole("ADMIN")
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/settings/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/settings/**").authenticated()
+
+                        // Core Operations
                         .requestMatchers(HttpMethod.GET, "/api/vehicles/**").hasAnyRole("ADMIN", "FLEET_MANAGER", "SAFETY_OFFICER")
                         .requestMatchers("/api/vehicles/**").hasAnyRole("ADMIN", "FLEET_MANAGER")
                         .requestMatchers("/api/drivers/**").hasAnyRole("ADMIN", "FLEET_MANAGER", "SAFETY_OFFICER")

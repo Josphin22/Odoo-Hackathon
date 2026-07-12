@@ -17,6 +17,12 @@ import ExpenseList from '../pages/expenses/ExpenseList';
 import Reports from '../pages/reports/Reports';
 import Profile from '../pages/profile/Profile';
 
+// Admin Pages
+import EmployeeManager from '../pages/admin/EmployeeManager';
+import RolePermissionMatrix from '../pages/admin/RolePermissionMatrix';
+import AuditHistory from '../pages/admin/AuditHistory';
+import CompanySettings from '../pages/admin/CompanySettings';
+
 const AppRoutes = () => {
   return (
     <Routes>
@@ -38,6 +44,43 @@ const AppRoutes = () => {
 
         {/* Dashboard (All Roles) */}
         <Route path="dashboard" element={<Dashboard />} />
+
+        {/* Admin Modules */}
+        <Route 
+          path="admin/employees" 
+          element={
+            <RoleRoute allowedRoles={['ADMIN']}>
+              <EmployeeManager />
+            </RoleRoute>
+          } 
+        />
+
+        <Route 
+          path="admin/roles" 
+          element={
+            <RoleRoute allowedRoles={['ADMIN']}>
+              <RolePermissionMatrix />
+            </RoleRoute>
+          } 
+        />
+
+        <Route 
+          path="admin/audit-logs" 
+          element={
+            <RoleRoute allowedRoles={['ADMIN']}>
+              <AuditHistory />
+            </RoleRoute>
+          } 
+        />
+
+        <Route 
+          path="admin/company-settings" 
+          element={
+            <RoleRoute allowedRoles={['ADMIN']}>
+              <CompanySettings />
+            </RoleRoute>
+          } 
+        />
 
         {/* Vehicle Registry (Managers and Safety Officers) */}
         <Route 
@@ -63,7 +106,7 @@ const AppRoutes = () => {
         <Route 
           path="trips" 
           element={
-            <RoleRoute allowedRoles={['FLEET_MANAGER', 'DRIVER', 'SAFETY_OFFICER']}>
+            <RoleRoute allowedRoles={['FLEET_MANAGER', 'DRIVER', 'SAFETY_OFFICER', 'DISPATCHER']}>
               <TripList />
             </RoleRoute>
           } 
