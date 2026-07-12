@@ -27,4 +27,16 @@ public class Vehicle {
 
     @Column(nullable = false)
     private String status;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private Integer odometer;
+
+    @Column(nullable = false)
+    private Double acquisitionCost;
+
+    @Column(nullable = false)
+    private String region;
 }

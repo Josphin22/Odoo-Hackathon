@@ -2,15 +2,16 @@ package com.transitops.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "trips")
+@Table(name = "fuel_logs")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Trip {
+public class FuelLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,27 +25,15 @@ public class Trip {
     @JoinColumn(name = "driver_id", nullable = false)
     private Driver driver;
 
-    private String source;
+    @Column(nullable = false)
+    private LocalDate date;
 
-    private String destination;
+    @Column(nullable = false)
+    private Double liters;
 
-    private String tripDate;
+    @Column(nullable = false)
+    private Double cost;
 
-    private String status;
-
-    private String tripNumber;
-
-    private Double cargoWeight;
-
-    private Double plannedDistance;
-
-    private Double actualDistance;
-
-    private Double fuelConsumed;
-
-    private java.time.LocalDateTime createdAt;
-
-    private java.time.LocalDateTime dispatchedAt;
-
-    private java.time.LocalDateTime completedAt;
+    @Column(nullable = false)
+    private Integer odometer;
 }

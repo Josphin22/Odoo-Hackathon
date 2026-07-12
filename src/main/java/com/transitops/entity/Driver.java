@@ -27,4 +27,13 @@ public class Driver {
 
     @Column(nullable = false)
     private String status;
+
+    @Column(nullable = false)
+    private String licenseCategory;
+
+    @Column(nullable = false)
+    private java.time.LocalDate licenseExpiryDate;
+
+    @Column(nullable = false)
+    private Integer safetyScore;
 }

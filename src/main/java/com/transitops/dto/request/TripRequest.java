@@ -16,4 +16,12 @@ public class TripRequest {
     private String tripDate;
 
     private String status;
+
+    private Double cargoWeight;
+
+    private Double plannedDistance;
+
+    private Double actualDistance;
+
+    private Double fuelConsumed;
 }

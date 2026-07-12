@@ -9,4 +9,8 @@ public interface AuthService {
     String register(RegisterRequest request);
 
     AuthResponse login(LoginRequest request);
+
+    com.transitops.dto.response.UserProfileResponse getProfile(String email);
+
+    com.transitops.dto.response.UserProfileResponse updateProfile(String email, com.transitops.dto.request.ProfileRequest request);
 }

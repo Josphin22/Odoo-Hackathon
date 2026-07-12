@@ -1,8 +1,10 @@
 package com.transitops.enums;
 
 public enum RoleName {
+    ADMIN,
     FLEET_MANAGER,
-    DRIVER,
+    DISPATCHER,
     SAFETY_OFFICER,
-    FINANCIAL_ANALYST
+    FINANCIAL_ANALYST,
+    DRIVER
 }

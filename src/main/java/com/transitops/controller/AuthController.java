@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api")
 public class AuthController {
 
     private final AuthService authService;
@@ -19,17 +19,29 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @PostMapping("/register")
+    @PostMapping("/auth/register")
     public ResponseEntity<String> register(@Valid @RequestBody RegisterRequest request) {
 
         String response = authService.register(request);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
 
         return ResponseEntity.ok(authService.login(request));
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<com.transitops.dto.response.UserProfileResponse> getProfile(java.security.Principal principal) {
+        return ResponseEntity.ok(authService.getProfile(principal.getName()));
+    }
+
+    @PutMapping("/profile")
+    public ResponseEntity<com.transitops.dto.response.UserProfileResponse> updateProfile(
+            java.security.Principal principal,
+            @Valid @RequestBody com.transitops.dto.request.ProfileRequest request) {
+        return ResponseEntity.ok(authService.updateProfile(principal.getName(), request));
     }
 
 }
