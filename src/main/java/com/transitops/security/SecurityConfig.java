@@ -19,11 +19,12 @@ public class SecurityConfig {
                                 "/api/auth/**",
                                 "/api/vehicles/**",
                                 "/api/drivers/**",
-                                "/api/trips/**"
+                                "/api/trips/**",
+                                "/api/dashboard"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
-                .httpBasic(Customizer.withDefaults());
+                ;
 
         return http.build();
     }
