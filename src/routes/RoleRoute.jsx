@@ -15,7 +15,7 @@ const RoleRoute = ({ children, allowedRoles = [] }) => {
   }
 
   // Check if role is authorized
-  const hasAccess = allowedRoles.includes(user.role);
+  const hasAccess = user?.role === 'ADMIN' || allowedRoles.includes(user?.role);
   if (!hasAccess) {
     return <Navigate to="/unauthorized" replace />;
   }

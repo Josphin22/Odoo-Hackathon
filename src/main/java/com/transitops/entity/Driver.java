@@ -36,4 +36,8 @@ public class Driver {
 
     @Column(nullable = false)
     private Integer safetyScore;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", unique = true)
+    private User user; // One-to-one link to employee account
 }

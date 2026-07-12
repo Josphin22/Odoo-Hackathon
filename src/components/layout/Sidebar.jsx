@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, Truck, Users, Route, Wrench, 
   Fuel, Wallet, FileText, User, LogOut, Sun, Moon, 
-  Menu, ChevronLeft 
+  Menu, ChevronLeft, Shield, ScrollText, Settings, UserCheck
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -20,9 +20,13 @@ const Sidebar = () => {
   // Route declarations with permissions
   const menuItems = [
     { label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard, roles: ['*'] },
+    { label: 'Employees', path: '/admin/employees', icon: UserCheck, roles: ['ADMIN'] },
+    { label: 'Roles Matrix', path: '/admin/roles', icon: Shield, roles: ['ADMIN'] },
+    { label: 'Audit Logs', path: '/admin/audit-logs', icon: ScrollText, roles: ['ADMIN'] },
+    { label: 'Company Profile', path: '/admin/company-settings', icon: Settings, roles: ['ADMIN'] },
     { label: 'Vehicles', path: '/vehicles', icon: Truck, roles: ['FLEET_MANAGER', 'SAFETY_OFFICER'] },
     { label: 'Drivers', path: '/drivers', icon: Users, roles: ['FLEET_MANAGER', 'SAFETY_OFFICER'] },
-    { label: 'Trips', path: '/trips', icon: Route, roles: ['FLEET_MANAGER', 'DRIVER', 'SAFETY_OFFICER'] },
+    { label: 'Trips', path: '/trips', icon: Route, roles: ['FLEET_MANAGER', 'DRIVER', 'SAFETY_OFFICER', 'DISPATCHER'] },
     { label: 'Maintenance', path: '/maintenance', icon: Wrench, roles: ['FLEET_MANAGER'] },
     { label: 'Fuel Logs', path: '/fuel', icon: Fuel, roles: ['FLEET_MANAGER', 'DRIVER', 'FINANCIAL_ANALYST'] },
     { label: 'Expenses', path: '/expenses', icon: Wallet, roles: ['FLEET_MANAGER', 'FINANCIAL_ANALYST'] },
@@ -33,7 +37,7 @@ const Sidebar = () => {
   // Filter items based on active role
   const userRole = user?.role || 'DRIVER';
   const filteredItems = menuItems.filter(item => 
-    item.roles.includes('*') || item.roles.includes(userRole)
+    item.roles.includes('*') || item.roles.includes(userRole) || userRole === 'ADMIN'
   );
 
   // GSAP animation for collapsing/expanding sidebar
