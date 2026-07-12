@@ -43,4 +43,25 @@ public class TripController {
         tripService.deleteTrip(id);
         return "Trip deleted successfully";
     }
+
+    @PutMapping("/{id}/dispatch")
+    public TripResponse dispatchTrip(@PathVariable Long id) {
+        return tripService.dispatchTrip(id);
+    }
+
+    @PutMapping("/{id}/complete")
+    public TripResponse completeTrip(@PathVariable Long id, @RequestBody CompleteRequest request) {
+        return tripService.completeTrip(id, request.getFinalOdometer(), request.getFuelConsumed());
+    }
+
+    @PutMapping("/{id}/cancel")
+    public TripResponse cancelTrip(@PathVariable Long id) {
+        return tripService.cancelTrip(id);
+    }
+
+    @lombok.Data
+    public static class CompleteRequest {
+        private Double finalOdometer;
+        private Double fuelConsumed;
+    }
 }

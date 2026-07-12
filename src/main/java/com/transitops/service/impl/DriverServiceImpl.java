@@ -21,17 +21,26 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
+    @org.springframework.transaction.annotation.Transactional
     public DriverResponse addDriver(DriverRequest request) {
 
-        if(driverRepository.existsByLicenseNumber(request.getLicenseNumber())){
+        if (driverRepository.existsByLicenseNumber(request.getLicenseNumber())) {
             throw new BadRequestException("Driver already exists");
         }
 
+        String status = request.getStatus();
+        if (status == null || status.trim().isEmpty()) {
+            status = "Available";
+        }
+
         Driver driver = Driver.builder()
-                .fullName(request.getFullName())
+                .fullName(request.getName())
                 .licenseNumber(request.getLicenseNumber())
-                .phoneNumber(request.getPhoneNumber())
-                .status(request.getStatus())
+                .licenseCategory(request.getLicenseCategory())
+                .licenseExpiryDate(request.getLicenseExpiryDate() != null ? java.time.LocalDate.parse(request.getLicenseExpiryDate()) : null)
+                .phoneNumber(request.getContactNumber())
+                .safetyScore(request.getSafetyScore())
+                .status(status)
                 .build();
 
         driverRepository.save(driver);
@@ -57,15 +66,33 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
+    @org.springframework.transaction.annotation.Transactional
     public DriverResponse updateDriver(Long id, DriverRequest request) {
 
         Driver driver = driverRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Driver not found"));
 
-        driver.setFullName(request.getFullName());
-        driver.setLicenseNumber(request.getLicenseNumber());
-        driver.setPhoneNumber(request.getPhoneNumber());
-        driver.setStatus(request.getStatus());
+        if (request.getName() != null) {
+            driver.setFullName(request.getName());
+        }
+        if (request.getLicenseNumber() != null) {
+            driver.setLicenseNumber(request.getLicenseNumber());
+        }
+        if (request.getLicenseCategory() != null) {
+            driver.setLicenseCategory(request.getLicenseCategory());
+        }
+        if (request.getLicenseExpiryDate() != null) {
+            driver.setLicenseExpiryDate(java.time.LocalDate.parse(request.getLicenseExpiryDate()));
+        }
+        if (request.getContactNumber() != null) {
+            driver.setPhoneNumber(request.getContactNumber());
+        }
+        if (request.getSafetyScore() != null) {
+            driver.setSafetyScore(request.getSafetyScore());
+        }
+        if (request.getStatus() != null) {
+            driver.setStatus(request.getStatus());
+        }
 
         driverRepository.save(driver);
 
@@ -73,21 +100,29 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
+    @org.springframework.transaction.annotation.Transactional
     public void deleteDriver(Long id) {
 
         Driver driver = driverRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Driver not found"));
 
+        if ("On Trip".equalsIgnoreCase(driver.getStatus())) {
+            throw new BadRequestException("Cannot delete driver while they are currently driving a trip.");
+        }
+
         driverRepository.delete(driver);
     }
 
-    private DriverResponse map(Driver driver){
+    private DriverResponse map(Driver driver) {
 
         return DriverResponse.builder()
                 .id(driver.getId())
-                .fullName(driver.getFullName())
+                .name(driver.getFullName())
                 .licenseNumber(driver.getLicenseNumber())
-                .phoneNumber(driver.getPhoneNumber())
+                .licenseCategory(driver.getLicenseCategory())
+                .licenseExpiryDate(driver.getLicenseExpiryDate() != null ? driver.getLicenseExpiryDate().toString() : null)
+                .contactNumber(driver.getPhoneNumber())
+                .safetyScore(driver.getSafetyScore())
                 .status(driver.getStatus())
                 .build();
     }

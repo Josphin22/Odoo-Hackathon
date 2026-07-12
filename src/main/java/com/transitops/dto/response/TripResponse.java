@@ -9,6 +9,8 @@ public class TripResponse {
 
     private Long id;
 
+    private String tripNumber;
+
     private Long vehicleId;
 
     private Long driverId;
@@ -20,4 +22,18 @@ public class TripResponse {
     private String tripDate;
 
     private String status;
+
+    private Double cargoWeight;
+
+    private Double plannedDistance;
+
+    private Double actualDistance;
+
+    private Double fuelConsumed;
+
+    private String createdAt;
+
+    private String dispatchedAt;
+
+    private String completedAt;
 }

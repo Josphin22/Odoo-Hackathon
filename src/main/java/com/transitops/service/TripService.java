@@ -16,4 +16,10 @@ public interface TripService {
     TripResponse updateTrip(Long id, TripRequest request);
 
     void deleteTrip(Long id);
+
+    TripResponse dispatchTrip(Long id);
+
+    TripResponse completeTrip(Long id, Double finalOdometer, Double fuelConsumed);
+
+    TripResponse cancelTrip(Long id);
 }

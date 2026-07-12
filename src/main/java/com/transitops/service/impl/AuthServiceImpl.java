@@ -73,6 +73,39 @@ public class AuthServiceImpl implements AuthService {
                 .token(token)
                 .email(user.getEmail())
                 .fullName(user.getFullName())
+                .name(user.getFullName())
+                .role(user.getRole().getName().name())
+                .build();
+    }
+
+    @Override
+    public com.transitops.dto.response.UserProfileResponse getProfile(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new com.transitops.exception.ResourceNotFoundException("User not found"));
+
+        return com.transitops.dto.response.UserProfileResponse.builder()
+                .name(user.getFullName())
+                .email(user.getEmail())
+                .role(user.getRole().getName().name())
+                .build();
+    }
+
+    @Override
+    @org.springframework.transaction.annotation.Transactional
+    public com.transitops.dto.response.UserProfileResponse updateProfile(String email, com.transitops.dto.request.ProfileRequest request) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new com.transitops.exception.ResourceNotFoundException("User not found"));
+
+        user.setFullName(request.getName());
+        if (request.getPassword() != null && !request.getPassword().trim().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
+
+        userRepository.save(user);
+
+        return com.transitops.dto.response.UserProfileResponse.builder()
+                .name(user.getFullName())
+                .email(user.getEmail())
                 .role(user.getRole().getName().name())
                 .build();
     }

@@ -5,11 +5,19 @@ import lombok.Data;
 @Data
 public class VehicleRequest {
 
-    private String vehicleNumber;
+    private String registrationNumber;
 
-    private String vehicleType;
+    private String name;
 
-    private Integer capacity;
+    private String type;
+
+    private Integer maxCapacity;
+
+    private Integer odometer;
+
+    private Double acquisitionCost;
+
+    private String region;
 
     private String status;
 

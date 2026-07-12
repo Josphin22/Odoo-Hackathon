@@ -5,11 +5,17 @@ import lombok.Data;
 @Data
 public class DriverRequest {
 
-    private String fullName;
+    private String name;
 
     private String licenseNumber;
 
-    private String phoneNumber;
+    private String licenseCategory;
+
+    private String licenseExpiryDate;
+
+    private String contactNumber;
+
+    private Integer safetyScore;
 
     private String status;
 
